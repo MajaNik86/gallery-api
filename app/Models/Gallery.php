@@ -12,6 +12,14 @@ class Gallery extends Model
 {
     use HasFactory;
 
+    protected $table = 'galleries';
+
+    protected $fillable = [
+        'title',
+        'description',
+        'user_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
