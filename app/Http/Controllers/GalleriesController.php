@@ -6,6 +6,7 @@ use App\Models\Gallery;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateGalleryRequest;
 use App\Models\Image;
+use Illuminate\Support\Facades\Auth;
 
 class GalleriesController extends Controller
 {
@@ -14,10 +15,13 @@ class GalleriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $galleries = Gallery::all();
-        return $galleries;
+        $userId = $request->query('userId', '');
+        $term = $request->query('term', '');
+        $galleries = Gallery::searchByTerm($term, $userId)->latest()->paginate(10);
+
+        return response()->json($galleries);
     }
 
     /**
@@ -35,6 +39,7 @@ class GalleriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(CreateGalleryRequest $request)
     {
         $gallery = new Gallery();

@@ -61,6 +61,7 @@ class AuthController extends Controller
             ]
         );
     }
+
     public function refresh(Request $request)
     {
         return response()->json([
@@ -77,5 +78,15 @@ class AuthController extends Controller
         return response()->json([
             "status" => "success",
         ]);
+    }
+
+    public function getActiveUser()
+    {
+        $activeUser = Auth::user();
+        return response()->json($activeUser);
+
+        // return response()->json([
+        //     "user" => Auth::user(),
+        // ]);
     }
 }
